@@ -1,14 +1,22 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import Spline from "@splinetool/react-spline";
 
 export default function Hero() {
+  const { scrollY } = useScroll();
+  const yText = useTransform(scrollY, [0, 400], [0, -50]);
+  const yBg = useTransform(scrollY, [0, 400], [0, 30]);
+  const opacityOverlay = useTransform(scrollY, [0, 300], [1, 0.85]);
+
   return (
-    <section id="home" className="relative min-h-[90vh] flex items-center">
-      <div className="absolute inset-0">
-        <Spline scene="https://prod.spline.design/vc19ejtcC5VJjy5v/scene.splinecode" style={{ width: "100%", height: "100%" }} />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black" />
-      </div>
+    <section id="home" className="relative min-h-[92vh] flex items-center">
+      <motion.div className="absolute inset-0" style={{ y: yBg }}>
+        <Spline scene="https://prod.spline.design/VJLoxp84lCdVfdZu/scene.splinecode" style={{ width: "100%", height: "100%" }} />
+        <motion.div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black"
+          style={{ opacity: opacityOverlay }}
+        />
+      </motion.div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-16">
         <motion.div
@@ -16,6 +24,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
+          style={{ y: yText }}
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-50">
             Ade Budiono
